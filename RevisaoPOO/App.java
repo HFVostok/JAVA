@@ -21,15 +21,6 @@ public class App {
 
         int opcao = 0;
 
-        do {
-            System.out.println("Escolha uma opcao:");
-            System.out.println("1 - Passaros");
-            System.out.println("2 - Repteis");
-            System.out.println("3 - Roedores");
-            System.out.println("4 - Sair");
-            opcao = entrada.nextInt();
-        } while (opcao != 4);
-
     }
 
 }
