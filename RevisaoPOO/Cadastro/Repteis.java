@@ -1,32 +1,38 @@
 package RevisaoPOO.Cadastro;
 
 public class Repteis extends Animal {
-    String raça;
+    String raca;
     String genero;
-    String sencibilidadeLuz;
+    boolean sencibilidadeLuz;
 
     // Get e Seters
 
-    public String getRaça() {
-        return raça;
+    public String getRaca() {
+        return raca;
     }
-    public void setRaça(String raça) {
-        this.raça = raça;
+
+    public void setRaca(String raca) {
+        this.raca = raca;
     }
+
     public String getGenero() {
         return genero;
     }
+
     public void setGenero(String genero) {
         this.genero = genero;
     }
-    public String getSencibilidadeLuz() {
+
+    public boolean getSencibilidadeLuz() {
         return sencibilidadeLuz;
     }
-    public void setSencibilidadeLuz(String sencibilidadeLuz) {
-        this.sencibilidadeLuz = sencibilidadeLuz;
+
+    public void setSencibilidadeLuz(int i) {
+        if (i == 1) {
+            this.sencibilidadeLuz = true;
+        } else {
+            this.sencibilidadeLuz = false;
+        }
     }
 
-    
-
-    
 }

@@ -1,32 +1,38 @@
 package RevisaoPOO.Cadastro;
 
 public class Roedores extends Animal {
-    String raça;
+    String raca;
     String genero;
     boolean castracao;
 
     // Get e Seters
 
-    public String getRaça() {
-        return raça;
+    public String getRaca() {
+        return raca;
     }
-    public void setRaça(String raça) {
-        this.raça = raça;
+
+    public void setRaca(String raca) {
+        this.raca = raca;
     }
+
     public String getGenero() {
         return genero;
     }
+
     public void setGenero(String genero) {
         this.genero = genero;
     }
+
     public boolean isCastracao() {
         return castracao;
     }
-    public void setCastracao(boolean castracao) {
-        this.castracao = castracao;
+
+    public void setCastracao(int i) {
+        if (i == 1) {
+            this.castracao = true;
+        } else {
+            this.castracao = false;
+        }
     }
 
-
-
-    
 }

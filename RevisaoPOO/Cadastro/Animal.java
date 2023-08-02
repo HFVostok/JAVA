@@ -8,14 +8,15 @@ public abstract class Animal {
     String proprietario;
 
     // Métodos
+   
     // Contrutor Cheio
-
-    public Animal(String nome, double peso, String especie, String proprietario) {
+    /*public Animal(String nome, double peso, String especie, String proprietario) {
         this.nome = nome;
         this.peso = peso;
         this.especie = especie;
         this.proprietario = proprietario;
-    }
+    }*/
+
     // construtor vazio
 
     public Animal() { 
