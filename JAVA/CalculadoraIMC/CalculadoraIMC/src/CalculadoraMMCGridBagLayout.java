@@ -1,50 +1,53 @@
+// Importes de Recursos do Java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class CalculadoraMMCGridBagLayout {
     private JFrame frame;
     private JTextField inputField1;
     private JTextField inputField2;
-    private JButton calculateButton;
+    private JButton calculateButton; // cria 
     private JLabel resultLabel;
 
+    // metodo
     public CalculadoraMMCGridBagLayout() {
-        frame = new JFrame("Calculadora IMC");
+        frame = new JFrame("Calculadora IMC");  //nome exibido no painel
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        GridBagConstraints ppcimc = new GridBagConstraints();
+        ppcimc.gridx = 0;
+        ppcimc.gridy = 0;
+        ppcimc.fill = GridBagConstraints.HORIZONTAL;
+        ppcimc.insets = new Insets(5, 5, 5, 5);
 
-        frame.add(new JLabel("Peso (kg): "), gbc);
-        gbc.gridy++;
-        frame.add(new JLabel("Altura (m): "), gbc);
+        frame.add(new JLabel("Peso (kg): "), ppcimc);
+        ppcimc.gridy++;
+        frame.add(new JLabel("Altura (m): "), ppcimc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        ppcimc.gridx = 1;
+        ppcimc.gridy = 0;
+        ppcimc.weightx = 1.0;
+        ppcimc.fill = GridBagConstraints.HORIZONTAL;
         inputField1 = new JTextField();
-        frame.add(inputField1, gbc);
-        gbc.gridy++;
+        frame.add(inputField1, ppcimc);
+        ppcimc.gridy++;
         inputField2 = new JTextField();
-        frame.add(inputField2, gbc);
+        frame.add(inputField2, ppcimc);
 
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.gridwidth = 2;
+        ppcimc.gridx = 0;
+        ppcimc.gridy++;
+        ppcimc.gridwidth = 2;
         calculateButton = new JButton("Calcular IMC");
-        frame.add(calculateButton, gbc);
+        frame.add(calculateButton, ppcimc);
 
-        gbc.gridy++;
-        gbc.gridwidth = 2;
+        ppcimc.gridy++;
+        ppcimc.gridwidth = 2;
         resultLabel = new JLabel();
-        frame.add(resultLabel, gbc);
+        frame.add(resultLabel, ppcimc);
 
         calculateButton.addActionListener(new ActionListener() {
             @Override
