@@ -21,9 +21,9 @@ public class CalculadoraMMCGridBagLayout {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        frame.add(new JLabel("Número 1:"), gbc);
+        frame.add(new JLabel("Peso (kg): "), gbc);
         gbc.gridy++;
-        frame.add(new JLabel("Número 2:"), gbc);
+        frame.add(new JLabel("Altura (m): "), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -59,28 +59,26 @@ public class CalculadoraMMCGridBagLayout {
 
     private void calcularMMC() {
         try {
-            int numero1 = Integer.parseInt(inputField1.getText());
-            int numero2 = Integer.parseInt(inputField2.getText());
 
-            int mmc = calcularMMC(numero1, numero2);
+            float numero1 = Float.parseFloat(inputField1.getText());
+            float numero2 = Float.parseFloat(inputField2.getText());
+            float imc = calcularMMC(numero1, numero2);
 
-            resultLabel.setText("O IMC de " + numero1 + " e " + numero2 + " é: " + mmc);
+            resultLabel.setText("O peso: " + numero1 + " e Altura: " + numero2 + " é: " + imc);
         } catch (NumberFormatException e) {
             resultLabel.setText("Digite números válidos.");
         }
     }
 
-    private int calcularMMC(int numero1, int numero2) {
-        int maximo = Math.max(numero1, numero2);
-        int minimo = Math.min(numero1, numero2);
-        int mmc = maximo;
+    private float calcularMMC(float numero1, float numero2) {
 
-        while (mmc % minimo != 0) {
-            mmc += maximo;
+        float imc = numero1 / (numero2 * numero2);
+
+        while (imc % numero1 != 0) {
+            imc += numero1;
         }
 
-        return mmc;
+        return imc;
     }
-
 
 }
