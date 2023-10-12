@@ -12,8 +12,12 @@ import javax.swing.JScrollPane; // Importa JScrollPane para adicionar barras de 
 import javax.swing.JTextField; // Importa JTextField para criar campo de entrada de texto
 import java.awt.*; // Importa classes do pacote awt para gerenciar a interface gráfica
 
-import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 public class TodoList extends JFrame {
     // Declaração de atributos
@@ -73,53 +77,99 @@ public class TodoList extends JFrame {
         this.add(mainPanel);
         this.setVisible(true);
 
-        // Tratamento de Eventos
-
-        // Adiciona ouvintes de eventos aos botões e JComboBox
-
-        // addButton.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent e) {
-        // addTask(); // Chama o método para adicionar uma nova tarefa
-        // }
-        // });
-
-        // deleteButton.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent e) {
-        // deleteTask(); // Chama o método para excluir a tarefa selecionada
-        // }
-        // });
-
-        // markDoneButton.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent e) {
-        // markTaskDone(); // Chama o método para marcar a tarefa como concluída
-        // }
-        // });
-
-        // filterComboBox.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent e) {
-        // filterTasks(); // Chama o método para filtrar as tarefas com base na seleção
-        // }
-        // });
-
-        // clearCompletedButton.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent e) {
-        // clearCompletedTasks(); // Chama o método para limpar as tarefas concluídas
-        // }
-        // });
+        // Tratamento de Eventos Hendler's
 
         Handler1 botaoAdicionar = new Handler1();
         addButton.addActionListener(botaoAdicionar);
 
+        Handler2 botaoDeletar = new Handler2();
+        deleteButton.addActionListener(botaoDeletar);
+
+        Handler3 botaoConcluido = new Handler3();
+        markDoneButton.addActionListener(botaoConcluido);
+
+        Handler4 caixaDeSelecao = new Handler4();
+        filterComboBox.addActionListener(caixaDeSelecao);
+
+        Handler5 limparConteudoLista = new Handler5();
+        clearCompletedButton.addActionListener(limparConteudoLista);
+
+        Hendler6 teclaLimparComcluidas = new Hendler6();
+        taskList.addKeyListener(teclaLimparComcluidas);
+
     }
 
+    // Manipulador para Adicionar uma Tarefa
+    // ================================================================================================================
     public class Handler1 implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             // Chama Classe Para Adicionar Tarefa
             addTask();
         }
+    }
 
+    // Manipulador para Deletar uma Tarefa
+    // ===================================================================================================================
+    public class Handler2 implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Chama Classe Para Deletar Tarefa
+            deleteTask();
+        }
+    }
+
+    // Manipulador para Marcar Tarefa Concluida
+    // ===============================================================================================================
+    public class Handler3 implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Chama Classe Para Marcar Comcluida
+            markTaskDone();
+        }
+    }
+
+    // Manipulador para Filtrar a Tarefa
+    // ======================================================================================================================
+    public class Handler4 implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Chama Classe Para Filtrar Tarefa
+            filterTasks();
+        }
+    }
+
+    // ================================================================================================================
+    public class Handler5 implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Chama Classe Para Limpar Tarefas Concluidas
+            clearCompletedTasks();
+        }
+    }
+    // ================================================================================================================
+
+    public class  Hendler6 implements KeyListener {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_K) {
+                clearCompletedTasks();
+            }
+           if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                deleteTask();
+            }
+
+        }
     }
 
     // Métodos para realizar operações CRUD em tarefas (adicionar, excluir, marcar
