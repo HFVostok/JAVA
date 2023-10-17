@@ -1,29 +1,30 @@
 public class Task {
-    // atributos
-    String description;
-    boolean done;
+    // Atributos
+    String description; // Descrição da tarefa
+    boolean done; // Indica se a tarefa está concluída (true) ou não (false)
 
-    // construtor
+    // Construtor
     public Task(String description) {
-        this.description = description;
-        this.done = false;
+        this.description = description; // Inicializa a descrição da tarefa com o valor fornecido
+        this.done = false; // Inicializa o status da tarefa como não concluída (false)
     }
-    // gets and set
+
+    // Métodos Getters e Setters para acessar e modificar os atributos
 
     public String getDescription() {
-        return description;
+        return description; // Retorna a descrição da tarefa
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description; // Define a descrição da tarefa com um novo valor
     }
 
     public boolean isDone() {
-        return done;
+        return done; // Retorna o status de conclusão da tarefa
     }
 
     public void setDone(boolean done) {
-        this.done = done;
+        this.done = done; // Define o status de conclusão da tarefa como verdadeiro (true) ou falso
+                          // (false)
     }
-    
 }

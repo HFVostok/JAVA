@@ -39,45 +39,57 @@ public class TodoList extends JFrame {
     private JButton trashFileButton;
 
     public TodoList() {
-        super("To-Do List App");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(400, 300);
+        super("To-Do List App"); // Define o título da janela da aplicação
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define o comportamento de fechar a aplicação ao fechar a
+                                                             // janela
+        this.setSize(400, 300); // Define o tamanho inicial da janela
 
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        mainPanel = new JPanel(); // Cria um painel principal para organizar os elementos
+        mainPanel.setLayout(new BorderLayout()); // Define o layout do painel principal como BorderLayout
 
-        tasks = new ArrayList<>();
-        listModel = new DefaultListModel<>();
-        taskList = new JList<>(listModel);
+        tasks = new ArrayList<>(); // Cria uma lista de tarefas (Task objects)
+        listModel = new DefaultListModel<>(); // Cria um modelo de lista para a exibição de tarefas na interface
+        taskList = new JList<>(listModel); // Cria uma lista na interface com base no modelo listModel
+        taskList.setBackground(Color.cyan);
 
-        taskInputField = new JTextField();
-        addButton = new JButton("Adicionar");
-        deleteButton = new JButton("Excluir");
-        markDoneButton = new JButton("Concluir");
-        filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas", "Concluídas", "Lixeira" });
-        clearCompletedButton = new JButton("Limpar Concluídas");
-        trashButton = new JButton("Lixeira"); // Novo botão "Lixeira"
-        trashFileButton = new JButton("Arquivo Lixeira");
+        taskInputField = new JTextField(); // Cria um campo de entrada de texto para adicionar novas tarefas
 
-        JPanel inputPanel = new JPanel(new BorderLayout());
-        inputPanel.add(taskInputField, BorderLayout.CENTER);
-        inputPanel.add(addButton, BorderLayout.EAST);
+        taskInputField.setBackground(Color.lightGray);
+        addButton = new JButton("Adicionar"); // Cria um botão para adicionar tarefas
+        deleteButton = new JButton("Excluir"); // Cria um botão para excluir tarefas
+        markDoneButton = new JButton("Concluir"); // Cria um botão para marcar tarefas como concluídas
+        filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas", "Concluídas", "Lixeira" }); // Cria uma caixa
+                                                                                                       // de seleção
+                                                                                                       // para filtrar
+                                                                                                       // tarefas
+        clearCompletedButton = new JButton("Limpar Concluídas"); // Cria um botão para limpar tarefas concluídas
+        trashButton = new JButton("Lixeira"); // Cria um botão "Lixeira" para algum propósito
+        trashFileButton = new JButton("Arquivo Lixeira"); // Cria um botão para alguma ação relacionada à lixeira
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        buttonPanel.add(deleteButton);
-        buttonPanel.add(markDoneButton);
-        buttonPanel.add(filterComboBox);
-        buttonPanel.add(clearCompletedButton);
-        buttonPanel.add(trashButton); // Adicionar o botão "Lixeira" ao painel de botões
-        buttonPanel.add(trashFileButton);
+        JPanel inputPanel = new JPanel(new BorderLayout()); // Cria um painel para entrada de tarefas
+        inputPanel.add(taskInputField, BorderLayout.CENTER); // Adiciona o campo de entrada de texto ao painel
+        inputPanel.add(addButton, BorderLayout.EAST); // Adiciona o botão "Adicionar" ao painel
 
-        mainPanel.add(inputPanel, BorderLayout.NORTH);
-        mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Cria um painel para os botões
+        buttonPanel.add(deleteButton); // Adiciona o botão "Excluir" ao painel
+        buttonPanel.add(markDoneButton); // Adiciona o botão "Concluir" ao painel
+        buttonPanel.add(filterComboBox); // Adiciona a caixa de seleção de filtro ao painel
+        buttonPanel.add(clearCompletedButton); // Adiciona o botão "Limpar Concluídas" ao painel
+        buttonPanel.add(trashButton); // Adiciona o botão "Lixeira" ao painel de botões
+        buttonPanel.add(trashFileButton); // Adiciona o botão "Arquivo Lixeira" ao painel de botões
 
-        this.add(mainPanel);
-        this.setVisible(true);
+        mainPanel.add(inputPanel, BorderLayout.NORTH); // Adiciona o painel de entrada de tarefas à parte superior do
+                                                       // painel principal
+        mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER); // Adiciona a lista de tarefas (com barra de
+                                                                       // rolagem) ao centro do painel principal
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH); // Adiciona o painel de botões à parte inferior do painel
+                                                        // principal
 
+        this.add(mainPanel); // Adiciona o painel principal à janela
+        this.setVisible(true); // Torna a janela visível
+
+        // Handlers (tratadores de eventos) para os botões e interações com a interface
+        // do usuário
         Handler1 botaoAdicionar = new Handler1();
         addButton.addActionListener(botaoAdicionar);
 
@@ -368,41 +380,47 @@ public class TodoList extends JFrame {
     // Método para mover para a Lixeira
     // ================================================================================================================================================
     private void moveTasksToTrash(int[] selectedIndices) {
+        // Método para mover tarefas selecionadas para a lixeira
         for (int index : selectedIndices) {
             if (index >= 0 && index < tasks.size()) {
                 Task taskToMove = tasks.get(index);
-                trashBin.add(taskToMove);
-                tasks.remove(index);
+                trashBin.add(taskToMove); // Adiciona a tarefa selecionada à lixeira
+                tasks.remove(index); // Remove a tarefa da lista de tarefas
             }
         }
         JOptionPane.showMessageDialog(null, "Tarefas movidas para a lixeira.", "Ação concluída",
-                JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.INFORMATION_MESSAGE); // Exibe uma mensagem de confirmação
     }
 
     private void deleteSelectedTasks(int[] selectedIndices) {
+        // Método para excluir permanentemente tarefas selecionadas
         List<Task> tasksToDelete = new ArrayList<>();
         for (int index : selectedIndices) {
             if (index >= 0 && index < tasks.size()) {
                 Task taskToDelete = tasks.get(index);
-                tasksToDelete.add(taskToDelete);
+                tasksToDelete.add(taskToDelete); // Adiciona a tarefa selecionada à lista de tarefas a serem excluídas
             }
         }
-        tasks.removeAll(tasksToDelete);
+        tasks.removeAll(tasksToDelete); // Remove as tarefas selecionadas da lista principal
         JOptionPane.showMessageDialog(null, "Tarefas excluídas permanentemente.", "Ação concluída",
-                JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.INFORMATION_MESSAGE); // Exibe uma mensagem de confirmação
     }
 
     private void showTrashBin() {
-        // Exibe as tarefas na lixeira
+        // Método para exibir as tarefas na lixeira
         StringBuilder trashTasks = new StringBuilder("Tarefas na lixeira:\n");
         for (Task task : trashBin) {
-            trashTasks.append(task.getDescription()).append("\n");
+            trashTasks.append(task.getDescription()).append("\n"); // Adiciona as descrições das tarefas na lixeira ao
+                                                                   // StringBuilder
         }
-        JOptionPane.showMessageDialog(null, trashTasks.toString(), "Lixeira", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, trashTasks.toString(), "Lixeira", JOptionPane.INFORMATION_MESSAGE); // Exibe
+        // as tarefas na lixeira em uma caixa de diálogo
+
     }
 
     // Método para exibir a janela
     public void run() {
-        this.setVisible(true);
+        this.setVisible(true); // Torna a janela visível
     }
+
 }
