@@ -36,6 +36,7 @@ public class TodoList extends JFrame {
     private JButton trashButton; // Botão para excluir uma tarefa para a lixeira
     private List<Task> tasks;
     private List<Task> trashBin = new ArrayList<>(); // Lista para manter tarefas na lixeira
+    private JButton trashFileButton;
 
     public TodoList() {
         super("To-Do List App");
@@ -53,9 +54,10 @@ public class TodoList extends JFrame {
         addButton = new JButton("Adicionar");
         deleteButton = new JButton("Excluir");
         markDoneButton = new JButton("Concluir");
-        filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas", "Concluídas" });
+        filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas", "Concluídas", "Lixeira" });
         clearCompletedButton = new JButton("Limpar Concluídas");
         trashButton = new JButton("Lixeira"); // Novo botão "Lixeira"
+        trashFileButton = new JButton("Arquivo Lixeira");
 
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputPanel.add(taskInputField, BorderLayout.CENTER);
@@ -67,6 +69,7 @@ public class TodoList extends JFrame {
         buttonPanel.add(filterComboBox);
         buttonPanel.add(clearCompletedButton);
         buttonPanel.add(trashButton); // Adicionar o botão "Lixeira" ao painel de botões
+        buttonPanel.add(trashFileButton);
 
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
@@ -102,6 +105,9 @@ public class TodoList extends JFrame {
 
         Handler9 botaoLixeira = new Handler9();
         trashButton.addActionListener(botaoLixeira);
+
+        Handler10 botaoArquivoLixeira = new Handler10();
+        trashFileButton.addActionListener(botaoArquivoLixeira);
     }
 
     // Manipulador para Adicionar uma Tarefa
@@ -239,7 +245,7 @@ public class TodoList extends JFrame {
             // Verifica se há tarefas selecionadas
             if (selectedIndices.length > 0) {
                 int escolha = JOptionPane.showConfirmDialog(null,
-                        "Você deseja mover as tarefas selecionadas para a lixeira?",
+                        "Você deseja mover as tarefas selecionadas para a lixeira aperte Yes, Excluir permanetemente Aperte NO?",
                         "Escolha uma ação", JOptionPane.YES_NO_CANCEL_OPTION);
 
                 if (escolha == JOptionPane.YES_OPTION) {
@@ -262,6 +268,13 @@ public class TodoList extends JFrame {
             }
         }
 
+    }
+
+    public class Handler10 implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            showTrashBin();
+        }
     }
     // ================================================================================================================
     // Métodos para realizar operações CRUD em tarefas (adicionar, excluir, marcar
@@ -333,10 +346,8 @@ public class TodoList extends JFrame {
     }
 
     // Método para mover para a Lixeira
-    //================================================================================================================================================
+    // ================================================================================================================================================
     private void moveTasksToTrash(int[] selectedIndices) {
-
-        // Mover as tarefas selecionadas para a lixeira
         for (int index : selectedIndices) {
             if (index >= 0 && index < tasks.size()) {
                 Task taskToMove = tasks.get(index);
@@ -349,7 +360,6 @@ public class TodoList extends JFrame {
     }
 
     private void deleteSelectedTasks(int[] selectedIndices) {
-        // Excluir permanentemente as tarefas selecionadas
         List<Task> tasksToDelete = new ArrayList<>();
         for (int index : selectedIndices) {
             if (index >= 0 && index < tasks.size()) {
@@ -357,11 +367,18 @@ public class TodoList extends JFrame {
                 tasksToDelete.add(taskToDelete);
             }
         }
-
         tasks.removeAll(tasksToDelete);
-
         JOptionPane.showMessageDialog(null, "Tarefas excluídas permanentemente.", "Ação concluída",
                 JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void showTrashBin() {
+        // Exibe as tarefas na lixeira
+        StringBuilder trashTasks = new StringBuilder("Tarefas na lixeira:\n");
+        for (Task task : trashBin) {
+            trashTasks.append(task.getDescription()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, trashTasks.toString(), "Lixeira", JOptionPane.INFORMATION_MESSAGE);
     }
 
     // Método para exibir a janela
