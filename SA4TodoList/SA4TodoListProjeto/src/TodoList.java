@@ -1,16 +1,17 @@
-import java.util.ArrayList; // Importa a classe ArrayList para gerenciar uma lista de tarefas
-import java.util.List; // Importa a interface List para trabalhar com listas
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Handler;
 
-import javax.swing.DefaultListModel; // Importa DefaultListModel para usar em uma JList
-import javax.swing.JButton; // Importa JButton para criar botões
-import javax.swing.JComboBox; // Importa JComboBox para criar uma caixa de seleção
-import javax.swing.JFrame; // Importa JFrame para criar a janela principal
-import javax.swing.JList; // Importa JList para exibir a lista de tarefas
-import javax.swing.JPanel; // Importa JPanel para criar painéis
-import javax.swing.JScrollPane; // Importa JScrollPane para adicionar barras de rolagem
-import javax.swing.JTextField; // Importa JTextField para criar campo de entrada de texto
-import java.awt.*; // Importa classes do pacote awt para gerenciar a interface gráfica
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import java.awt.*;
 
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
@@ -18,66 +19,61 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TodoList extends JFrame {
     // Declaração de atributos
-    private JPanel mainPanel; // Painel principal que abriga todos os componentes
-    private JTextField taskInputField; // Campo de entrada para adicionar novas tarefas
-    private JButton addButton; // Botão para adicionar tarefas
-    private JList<String> taskList; // Lista de tarefas exibida na GUI
-    private DefaultListModel<String> listModel; // Modelo para a lista de tarefas
-    private JButton deleteButton; // Botão para excluir tarefas
-    private JButton markDoneButton; // Botão para marcar tarefas como concluídas
-    private JComboBox<String> filterComboBox; // ComboBox para filtrar tarefas
-    private JButton clearCompletedButton; // Botão para limpar tarefas concluídas
-    private List<Task> tasks; // Lista de objetos Task que representam as tarefas
+    private JPanel mainPanel;
+    private JTextField taskInputField;
+    private JButton addButton;
+    private JList<String> taskList;
+    private DefaultListModel<String> listModel;
+    private JButton deleteButton;
+    private JButton markDoneButton;
+    private JComboBox<String> filterComboBox;
+    private JButton clearCompletedButton;
+    private JButton trashButton; // Botão para excluir uma tarefa para a lixeira
+    private List<Task> tasks;
+    private List<Task> trashBin = new ArrayList<>(); // Lista para manter tarefas na lixeira
 
-    // Construtor da classe
     public TodoList() {
-        // Configuração da Janela Principal
         super("To-Do List App");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400, 300);
 
-        // Inicialização do painel principal
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        // Inicialização da lista de tarefas e do modelo
         tasks = new ArrayList<>();
         listModel = new DefaultListModel<>();
         taskList = new JList<>(listModel);
 
-        // Inicialização de campos de entrada, botões e JComboBox
         taskInputField = new JTextField();
         addButton = new JButton("Adicionar");
         deleteButton = new JButton("Excluir");
         markDoneButton = new JButton("Concluir");
         filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas", "Concluídas" });
         clearCompletedButton = new JButton("Limpar Concluídas");
+        trashButton = new JButton("Lixeira"); // Novo botão "Lixeira"
 
-        // Configuração do painel de entrada
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputPanel.add(taskInputField, BorderLayout.CENTER);
         inputPanel.add(addButton, BorderLayout.EAST);
 
-        // Configuração do painel de botões
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         buttonPanel.add(deleteButton);
         buttonPanel.add(markDoneButton);
         buttonPanel.add(filterComboBox);
         buttonPanel.add(clearCompletedButton);
+        buttonPanel.add(trashButton); // Adicionar o botão "Lixeira" ao painel de botões
 
-        // Adiciona os componentes ao painel principal
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Adiciona o painel principal à janela
         this.add(mainPanel);
         this.setVisible(true);
-
-        // Tratamento de Eventos Hendler's
 
         Handler1 botaoAdicionar = new Handler1();
         addButton.addActionListener(botaoAdicionar);
@@ -94,13 +90,22 @@ public class TodoList extends JFrame {
         Handler5 limparConteudoLista = new Handler5();
         clearCompletedButton.addActionListener(limparConteudoLista);
 
-        Hendler6 teclaLimparComcluidas = new Hendler6();
-        taskList.addKeyListener(teclaLimparComcluidas);
+        Handler6 teclasDeAtalho = new Handler6();
+        taskInputField.addKeyListener(teclasDeAtalho);
+        taskList.addKeyListener(teclasDeAtalho);
 
+        Handler7 mouseClickListener = new Handler7();
+        taskList.addMouseListener(mouseClickListener);
+
+        Handler8 filtroCombox = new Handler8();
+        filterComboBox.addActionListener(filtroCombox);
+
+        Handler9 botaoLixeira = new Handler9();
+        trashButton.addActionListener(botaoLixeira);
     }
 
     // Manipulador para Adicionar uma Tarefa
-    // ================================================================================================================
+    // ===================================================================================================================
     public class Handler1 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -115,7 +120,18 @@ public class TodoList extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Chama Classe Para Deletar Tarefa
-            deleteTask();
+            int escolha = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja excluir essa tarefa?",
+                    "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (escolha == JOptionPane.YES_OPTION) {
+                System.out.println("Você escolheu 'Sim'.");
+                deleteTask();
+            } else if (escolha == JOptionPane.NO_OPTION) {
+                System.out.println("Você escolheu 'Não'.");
+
+            } else {
+                System.out.println("A janela foi fechada sem escolha.");
+                // Trate o caso em que o usuário fechou a janela sem fazer uma escolha
+            }
         }
     }
 
@@ -139,6 +155,7 @@ public class TodoList extends JFrame {
         }
     }
 
+    // Manipulador para limpar Tarefa Completas
     // ================================================================================================================
     public class Handler5 implements ActionListener {
         @Override
@@ -147,9 +164,10 @@ public class TodoList extends JFrame {
             clearCompletedTasks();
         }
     }
+    // Manipulador para Teclas de Atalho
     // ================================================================================================================
 
-    public class  Hendler6 implements KeyListener {
+    public class Handler6 implements KeyListener {
         @Override
         public void keyTyped(KeyEvent e) {
 
@@ -162,16 +180,90 @@ public class TodoList extends JFrame {
 
         @Override
         public void keyReleased(KeyEvent e) {
+
             if (e.getKeyCode() == KeyEvent.VK_K) {
-                clearCompletedTasks();
+                clearCompletedTasks(); // Limpar Tarefas Completas Com K
             }
-           if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-                deleteTask();
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                addTask(); // Add Tarefas com Enter
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                // deletar tarefas com Delete e Caixa de Confirmação
+                int escolha = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja excluir essa tarefa?",
+                        "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (escolha == JOptionPane.YES_OPTION) {
+                    System.out.println("Você escolheu 'Sim'.");
+                    deleteTask();
+                } else if (escolha == JOptionPane.NO_OPTION) {
+                    System.out.println("Você escolheu 'Não'.");
+
+                } else {
+                    System.out.println("A janela foi fechada sem escolha.");
+                    // Trate o caso em que o usuário fechou a janela sem fazer uma escolha
+                }
             }
 
         }
     }
 
+    // Manipulador para Tarefas Excluir Completas
+    // ================================================================================================================
+    public class Handler7 extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                deleteTask();
+            }
+        }
+    }
+
+    // Manipulador para o Filtro
+    // ================================================================================================================
+    public class Handler8 implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Chama Classe Para Adicionar Tarefa
+            filterTasks();
+        }
+    }
+
+    // Manipulador para o botão "Lixeira"
+    // ================================================================================================================
+    public class Handler9 implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Obtém os índices das tarefas selecionadas na lista
+            int[] selectedIndices = taskList.getSelectedIndices();
+
+            // Verifica se há tarefas selecionadas
+            if (selectedIndices.length > 0) {
+                int escolha = JOptionPane.showConfirmDialog(null,
+                        "Você deseja mover as tarefas selecionadas para a lixeira?",
+                        "Escolha uma ação", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if (escolha == JOptionPane.YES_OPTION) {
+                    // Mover as tarefas selecionadas para a lixeira (ou qualquer outra ação
+                    // desejada)
+                    moveTasksToTrash(selectedIndices);
+                } else if (escolha == JOptionPane.NO_OPTION) {
+                    // Excluir permanentemente as tarefas selecionadas
+                    deleteSelectedTasks(selectedIndices);
+                } else {
+                    // Cancelar a ação
+                    System.out.println("Ação cancelada.");
+                }
+
+                // Atualiza a lista de tarefas após a ação
+                updateTaskList();
+            } else {
+                JOptionPane.showMessageDialog(null, "Nenhuma tarefa selecionada para mover para a lixeira.", "Aviso",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+    }
+    // ================================================================================================================
     // Métodos para realizar operações CRUD em tarefas (adicionar, excluir, marcar
     // como concluído, filtrar e limpar)
 
@@ -215,7 +307,7 @@ public class TodoList extends JFrame {
         for (Task task : tasks) {
             if (filter.equals("Todas") || (filter.equals("Ativas") && !task.isDone())
                     || (filter.equals("Concluídas") && task.isDone())) {
-                listModel.addElement(task.getDescription());
+                listModel.addElement(task.getDescription() + (task.isDone() ? " (Concluída)" : ""));
             }
         }
     }
@@ -238,6 +330,38 @@ public class TodoList extends JFrame {
         for (Task task : tasks) {
             listModel.addElement(task.getDescription() + (task.isDone() ? " (Concluída)" : ""));
         }
+    }
+
+    // Método para mover para a Lixeira
+    //================================================================================================================================================
+    private void moveTasksToTrash(int[] selectedIndices) {
+
+        // Mover as tarefas selecionadas para a lixeira
+        for (int index : selectedIndices) {
+            if (index >= 0 && index < tasks.size()) {
+                Task taskToMove = tasks.get(index);
+                trashBin.add(taskToMove);
+                tasks.remove(index);
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Tarefas movidas para a lixeira.", "Ação concluída",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void deleteSelectedTasks(int[] selectedIndices) {
+        // Excluir permanentemente as tarefas selecionadas
+        List<Task> tasksToDelete = new ArrayList<>();
+        for (int index : selectedIndices) {
+            if (index >= 0 && index < tasks.size()) {
+                Task taskToDelete = tasks.get(index);
+                tasksToDelete.add(taskToDelete);
+            }
+        }
+
+        tasks.removeAll(tasksToDelete);
+
+        JOptionPane.showMessageDialog(null, "Tarefas excluídas permanentemente.", "Ação concluída",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     // Método para exibir a janela
