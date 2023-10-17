@@ -153,11 +153,31 @@ public class TodoList extends JFrame {
 
     // Manipulador para Filtrar a Tarefa
     // ======================================================================================================================
+    // Manipulador para Filtrar a Tarefa
     public class Handler4 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Chama Classe Para Filtrar Tarefa
-            filterTasks();
+            // Obtém a opção selecionada no JComboBox
+            String filter = (String) filterComboBox.getSelectedItem();
+
+            if (filter.equals("Lixeira")) {
+                // Se a opção for "Lixeira", exibe as tarefas na lixeira
+                showTrashBin();
+            } else {
+                // Caso contrário, filtra as tarefas com base na seleção
+                filterTasks(filter);
+            }
+        }
+    }
+
+    // Método para filtrar tarefas com base na seleção do JComboBox
+    private void filterTasks(String filter) {
+        listModel.clear();
+        for (Task task : tasks) {
+            if (filter.equals("Todas") || (filter.equals("Ativas") && !task.isDone())
+                    || (filter.equals("Concluídas") && task.isDone())) {
+                listModel.addElement(task.getDescription() + (task.isDone() ? " (Concluída)" : ""));
+            }
         }
     }
 
