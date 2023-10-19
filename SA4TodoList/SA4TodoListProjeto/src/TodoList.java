@@ -412,6 +412,7 @@ public class TodoList extends JFrame {
         for (Task task : trashBin) {
             trashTasks.append(task.getDescription()).append("\n"); // Adiciona as descrições das tarefas na lixeira ao
                                                                    // StringBuilder
+                                                                   
         }
         JOptionPane.showMessageDialog(null, trashTasks.toString(), "Lixeira", JOptionPane.INFORMATION_MESSAGE); // Exibe
         // as tarefas na lixeira em uma caixa de diálogo
