@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 ;
 
-public class CadastroUsuario extends JFrame {
+public class CadastroUsuario extends JPanel {
 
     private JTextField inputNome;
     private JTextField inputIdade;
@@ -23,10 +23,6 @@ public class CadastroUsuario extends JFrame {
 
     public CadastroUsuario() {
 
-        setTitle("Cadastro de Usuários");
-        setSize(600, 300);
-        setDefaultCloseOperation(2);
-        setLocationRelativeTo(null);
 
         // set do Frame
 
@@ -123,8 +119,4 @@ public class CadastroUsuario extends JFrame {
         }
     }
 
-    public void run (){
-        pack();
-        setVisible(true);
-    }
 }
