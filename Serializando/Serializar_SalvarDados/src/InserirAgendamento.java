@@ -9,42 +9,58 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+public class InserirAgendamento extends JPanel {
+    private JTextField inputUsuario;
+    private JTextField inputData;
+    private JTextField inputHora;
+    private JTextField inputDescricao;
+    private JTextField inputPrioridade;
 
-public class CadastroUsuario extends JPanel {
-
-    private JTextField inputNome;
-    private JTextField inputIdade;
     private DefaultTableModel tableModel;
     private JTable table;
 
-    private List<User> usuarios = new ArrayList<>();
+    private List<AgendamentoUsuario> agenda = new ArrayList<>();
     private int linhaSelecionada = -1;
 
-    public CadastroUsuario() {
-
+    public InserirAgendamento() {
 
         // set do Frame
 
         tableModel = new DefaultTableModel();
-        tableModel.addColumn("Nome");
-        tableModel.addColumn("Idade");
+        tableModel.addColumn("Usuário");
+        tableModel.addColumn("Data");
+        tableModel.addColumn("Hora");
+        tableModel.addColumn("Descrição");
+        tableModel.addColumn("Prioridade");
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table); // barra de rolagem
 
         /// declaração dos Componentes
 
-        inputNome = new JTextField(20);
-        inputIdade = new JTextField(5);
+        inputUsuario = new JTextField(20);
+        inputData = new JTextField(5);
+        inputHora = new JTextField(5);
+        inputDescricao = new JTextField(5);
+        inputPrioridade = new JTextField(5);
+
         JButton cadastrarButton = new JButton("Cadastrar");
         JButton atualizarButton = new JButton("Atualizar");
         JButton apagarButton = new JButton("Apagar");
         JButton apagarTodosButton = new JButton("Apagar Todos");
         JButton salvarButton = new JButton("Salvar");
         JPanel inputPanel = new JPanel();
-        inputPanel.add(new JLabel("Nome:"));
-        inputPanel.add(inputNome);
-        inputPanel.add(new JLabel("Idade:"));
-        inputPanel.add(inputIdade);
+
+        inputPanel.add(new JLabel("Usúario"));
+        inputPanel.add(inputUsuario);
+        inputPanel.add(new JLabel("Data:"));
+        inputPanel.add(inputData);
+        inputPanel.add(new JLabel("Hora:"));
+        inputPanel.add(inputHora);
+        inputPanel.add(new JLabel("Descrição:"));
+        inputPanel.add(inputDescricao);
+        inputPanel.add(new JLabel("Prioridade:"));
+        inputPanel.add(inputPrioridade);
+
         inputPanel.add(cadastrarButton);
         inputPanel.add(atualizarButton);
         inputPanel.add(apagarButton);
@@ -59,7 +75,7 @@ public class CadastroUsuario extends JPanel {
 
         File arquivo = new File("dados.txt");
         if (arquivo.exists()) {
-            usuarios = Serializacao.deserializar("dados.txt");
+            agenda = Serializacao.deserializar("dados.txt");
             atualizarTabela();
         }
         table.addMouseListener(new MouseAdapter() {
@@ -67,27 +83,31 @@ public class CadastroUsuario extends JPanel {
             public void mouseClicked(MouseEvent evt) {
                 linhaSelecionada = table.rowAtPoint(evt.getPoint());
                 if (linhaSelecionada != -1) {
-                    inputNome.setText((String) table.getValueAt(linhaSelecionada, 0));
-                    inputIdade.setText(table.getValueAt(linhaSelecionada, 1).toString());
+                    inputUsuario.setText((String) table.getValueAt(linhaSelecionada, 0));
+                    inputData.setText((String) table.getValueAt(linhaSelecionada, 1));
+                    inputHora.setText((String) table.getValueAt(linhaSelecionada, 2));
+                    inputDescricao.setText((String) table.getValueAt(linhaSelecionada, 3));
+                    inputPrioridade.setText((String) table.getValueAt(linhaSelecionada, 4));
+
 
                 }
             }
         });
-        OperacoesUsuario operacoes = new OperacoesUsuario(usuarios, tableModel, table);
+        OperacoesAgenda operacoes = new OperacoesAgenda(usuarios, tableModel, table);
         cadastrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                operacoes.cadastrarUsuario(inputNome.getText(), inputIdade.getText());
-                inputNome.setText("");
-                inputIdade.setText("");
+                operacoes.cadastrarAgenda(inputUsuario.getText(), inputData.getText(), inputHora.getText(),inputDescricao.getText(),inputPrioridade.getText());
+                inputUsuario.setText("");
+                inputData.setText("");
             }
         });
         atualizarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                operacoes.atualizarUsuario(linhaSelecionada, inputNome.getText(),
+                operacoes.atualizarUsuario(linhaSelecionada, inputUsuario.getText(),
 
-                        inputIdade.getText());
+                        inputData.getText());
 
             }
         });
@@ -113,9 +133,8 @@ public class CadastroUsuario extends JPanel {
 
     private void atualizarTabela() {
         tableModel.setRowCount(0);
-        for (User usuario : usuarios) {
-            tableModel.addRow(new Object[] { usuario.getNome(), usuario.getIdade() });
+        for (AgendamentoUsuario agenda : agenda) {
+            //tableModel.addRow(new Object[] { usuario.getNome(), usuario.getIdade() });
         }
     }
-
 }

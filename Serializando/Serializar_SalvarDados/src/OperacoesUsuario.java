@@ -14,7 +14,7 @@ public class OperacoesUsuario {
     }
 
     public void cadastrarUsuario(String nome, String idade) {
-        int idadeInt = Integer.parseInt(idade);
+        int idadeInt = Integer.parseInt(idade); //conversor de String para int
         User usuario = new User(nome, idadeInt);
         usuarios.add(usuario);
         atualizarTabela();

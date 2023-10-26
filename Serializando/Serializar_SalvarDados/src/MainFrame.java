@@ -8,6 +8,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(2);
         JTabbedPane abas = new JTabbedPane();
         abas.add("Cadastro de Usuários", new CadastroUsuario());
+        abas.add("Agendamentos do Usúario", new InserirAgendamento());
         add(abas);
     }
 
