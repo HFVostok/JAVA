@@ -7,6 +7,15 @@ public class AgendamentoUsuario implements Serializable {
     String descricao;
     String prioridade;
 
+    
+    public AgendamentoUsuario(String usuario, String data, String hora, String descricao, String prioridade) {
+        this.usuario = usuario;
+        this.data = data;
+        this.hora = hora;
+        this.descricao = descricao;
+        this.prioridade = prioridade;
+    }
+
     public String getUsuario() {
         return usuario;
     }

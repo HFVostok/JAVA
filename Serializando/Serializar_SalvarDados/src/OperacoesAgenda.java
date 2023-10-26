@@ -17,14 +17,14 @@ public class OperacoesAgenda {
     }
 
     public void cadastrarAgenda(String usuario, String data, String hora, String descricao, String prioridade) {
-        OperacoesAgenda agenda = new agenda(usuario, data, hora, descricao, prioridade);
+        AgendamentoUsuario agenda = new AgendamentoUsuario (usuario, data, hora, descricao, prioridade);
         agendamento.add(agenda);
         atualizarTabela();
     }
 
     public void atualizarAgenda(int linhaSelecionada, String usuario, String data, String hora, String descricao, String prioridade) {
         if (linhaSelecionada != -1) {
-            OperacoesAgenda agenda = new agenda (usuario, data, hora, descricao, prioridade);
+            AgendamentoUsuario agenda = new AgendamentoUsuario (usuario, data, hora, descricao, prioridade);
             agendamento.set(linhaSelecionada, agenda);
             atualizarTabela();
         }
@@ -43,7 +43,7 @@ public class OperacoesAgenda {
 
     private void atualizarTabela() {
         tableModel.setRowCount(0);
-        for (OperacoesAgenda agenda : agendamento) {
+        for (AgendamentoUsuario agenda : agendamento) {
             tableModel.addRow(new Object[] { agenda.getUsuario(), agenda.getData(), agenda.getHora(),
                     agenda.getDescricao(), agenda.getPrioridade()});
         }
