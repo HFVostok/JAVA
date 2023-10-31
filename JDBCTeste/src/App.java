@@ -14,7 +14,7 @@ Connection c = DriverManager.getConnection(url, usuario, senha);
 s = c.createStatement(); // Cria um objeto Statement a partir da conexão.
 // Executa uma codigo SQL de inserção na tabela "contato".
 // ser substituídos pelos valores reais a serem inseridos.
-s.execute("INSERT INTO contato VALUES('id', 'nome', 'email')");
+s.execute("INSERT INTO contato VALUES('1', 'hiago', 'hiago.fernando')");
 c.close(); // Fecha a conexão com o banco de dados após a conclusão da operação.
 } catch (Exception E) {
 System.out.println("\n" + E); // Captura e imprime qualquer exceção que ocorra durante a execução.
