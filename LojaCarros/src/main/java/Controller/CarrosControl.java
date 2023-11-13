@@ -1,29 +1,28 @@
 package Controller;
 
 import java.util.List;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import Connection.CarrosDAO;
 
+import Connection.CarrosDAO;
 import Model.Carros;
 
-/**
- * CarrosControl
- */
 public class CarrosControl {
-    // Atributos
+    // atributos
     private List<Carros> carros;
     private DefaultTableModel tableModel;
     private JTable table;
 
-    // Construtor
- public CarrosControl(List<Carros> carros, DefaultTableModel tableModel, JTable table)
-{
- this.carros = carros;
- this.tableModel = tableModel;
- this.table = table;}
+    // construtor
+    public CarrosControl(List<Carros> carros, DefaultTableModel tableModel, JTable table) {
+        this.carros = carros;
+        this.tableModel = tableModel;
+        this.table = table;
+    }
 
- // Método para atualizar a tabela de exibição com dados do banco de dados
+    // métodos do modelo CRUD
+    // Método para atualizar a tabela de exibição com dados do banco de dados
     private void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         carros = new CarrosDAO().listarTodos();
