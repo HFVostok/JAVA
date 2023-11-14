@@ -70,7 +70,7 @@ public class CarrosDAO {
     }
 
     // Cadastrar Carro no banco
-    public void cadastrar(String marca, String modelo, String ano, String placa, String valor) {
+    public void cadastrar(String marca, String modelo, int ano, String placa, int valor) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para cadastrar na tabela
         String sql = "INSERT INTO carros_lojacarros (marca, modelo, ano, placa, valor) VALUES (?, ?, ?, ?, ?)";
@@ -79,9 +79,9 @@ public class CarrosDAO {
 
             stmt.setString(1, marca);
             stmt.setString(2, modelo);
-            stmt.setString(3, ano);
+            stmt.setInt(3, ano);
             stmt.setString(4, placa);
-            stmt.setString(5, valor);
+            stmt.setInt(5, valor);
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
         } catch (
@@ -94,7 +94,7 @@ public class CarrosDAO {
     }
 
     // Atualizar dados no banco
-    public void atualizar(String marca, String modelo, String ano, String placa, String valor) {
+    public void atualizar(String marca, String modelo, int ano, String placa, int valor) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para atualizar dados pela placa
         String sql = "UPDATE carros_lojacarros SET marca = ?, modelo = ?, ano = ?, valor = ? WHERE placa = ?";
@@ -102,8 +102,8 @@ public class CarrosDAO {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, marca);
             stmt.setString(2, modelo);
-            stmt.setString(3, ano);
-            stmt.setString(4, valor);
+            stmt.setInt(3, ano);
+            stmt.setInt(4, valor);
             // placa é chave primaria não pode ser alterada.
             stmt.setString(5, placa);
             stmt.executeUpdate();
