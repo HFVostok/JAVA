@@ -4,11 +4,13 @@ public class Clientes {
     // atributos
     private String nome;
     private String endereco;
-    private int telefone;
-    private int cpf;
-    private int idade;
+    private String telefone;
+    private String cpf;
+    private String idade;
 
-    public Clientes(String nome, String endereco, int telefone, int cpf, int idade) {
+
+    // Construtor
+    public Clientes(String nome, String endereco, String telefone, String cpf, String idade) {
         this.nome = nome;
         this.endereco = endereco;
         this.telefone = telefone;
@@ -32,27 +34,27 @@ public class Clientes {
         this.endereco = endereco;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public int getIdade() {
+    public String getIdade() {
         return idade;
     }
 
-    public void setIdade(int idade) {
+    public void setIdade(String idade) {
         this.idade = idade;
     }
 
