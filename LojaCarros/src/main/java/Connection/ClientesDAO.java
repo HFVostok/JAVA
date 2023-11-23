@@ -16,7 +16,7 @@ public class ClientesDAO {
     private List<Clientes> clientes;
 
     // construtor
-    public ClientesDAO(Connection connection) {
+    public ClientesDAO() {
         this.connection = ConnectionFactory.getConnection();
     }
 
@@ -70,7 +70,7 @@ public class ClientesDAO {
     }
 
     // Cadastrar Clientes no banco
-    public void cadastrarCL(String nome, String endereco, int telefone, int cpf, int idade) {
+    public void cadastrarCL(String nome, String endereco, String telefone, String cpf, String idade) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para cadastrar na tabela
         String sql = "INSERT INTO carros_lojacarros (nome, endereco, telefone, cpf, idade) VALUES (?, ?, ?, ?, ?)";
@@ -79,9 +79,9 @@ public class ClientesDAO {
 
             stmt.setString(1, nome);
             stmt.setString(2, endereco);
-            stmt.setInt(3, telefone);
-            stmt.setInt(4, cpf);
-            stmt.setInt(5, idade);
+            stmt.setString(3, telefone);
+            stmt.setString(4, cpf);
+            stmt.setString(5, idade);
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
         } catch (
@@ -94,7 +94,7 @@ public class ClientesDAO {
     }
 
     // Atualizar dados no banco
-    public void atualizarCL(String nome, String endereco, int telefone, int cpf, int idade) {
+    public void atualizarCL(String nome, String endereco, String telefone, String cpf, String idade) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para atualizar dados pela placa
         String sql = "UPDATE carros_lojacarros SET nome = ?, endereco = ?, telefone = ?, idade = ? WHERE cpf = ?";
@@ -103,9 +103,9 @@ public class ClientesDAO {
             stmt.setString(1, nome);
             stmt.setString(2, endereco);
             stmt.setString(3, endereco);
-            stmt.setInt(4, idade);
+            stmt.setString(4, idade);
             // placa é chave primaria não pode ser alterada.
-            stmt.setInt(5, cpf);
+            stmt.setString(5, cpf);
             stmt.executeUpdate();
             System.out.println("Dados atualizados com sucesso");
         } catch (SQLException e) {

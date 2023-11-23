@@ -12,7 +12,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-
 import Connection.ClientesDAO;
 import Controller.ClientesControl;
 import Model.Clientes;
@@ -85,7 +84,7 @@ public class ClientesPainel extends JPanel {
             }
         });
 
-        ClientesControl opClientesControl = new ClientesControl(clientes,tableModel,table);
+        ClientesControl opClientesControl = new ClientesControl(clientes, tableModel, table);
 
         // tratamento para botão cadastrar
         cadastrar.addActionListener(e -> {
@@ -102,8 +101,8 @@ public class ClientesPainel extends JPanel {
         // tratamento do botão editar
         editar.addActionListener(e -> {
             opClientesControl.atualizar(cliNomeField.getText(), cliEnderecoField.getText(),
-                    Integer.parseInt(cliTelefoneField.getText()), clicpfField.getText(),
-                    Integer.parseInt(cliIdadeField.getText()));
+                    (cliTelefoneField.getText()), clicpfField.getText(),
+                    (cliIdadeField.getText()));
             cliNomeField.setText("");
             cliEnderecoField.setText("");
             cliTelefoneField.setText("");
@@ -123,7 +122,7 @@ public class ClientesPainel extends JPanel {
 
     }
 
-// métodos (atualizar tabela)
+    // métodos (atualizar tabela)
     // Método para atualizar a tabela de exibição com dados do banco de dados
     private void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
@@ -136,7 +135,5 @@ public class ClientesPainel extends JPanel {
                     cliente.getTelefone(), cliente.getCpf(), cliente.getIdade() });
         }
     }
-
-
 
 }

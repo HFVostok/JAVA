@@ -83,8 +83,8 @@ public class ClientesControl {
     }
 
     // Método para atualizar os dados de um carro no banco de dados
-    public void atualizar(String nome, String endereco, int telefone, String cpf, int idade) {
-        new ClientesDAO().atualizaCL(nome, endereco, telefone, cpf, idade);
+    public void atualizar(String nome, String endereco, String telefone, String cpf, String idade) {
+        new ClientesDAO().atualizarCL(nome, endereco, telefone, cpf, idade);
         // Chama o método de atualização no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a atualização
     }
