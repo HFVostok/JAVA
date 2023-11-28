@@ -65,7 +65,7 @@ public class ClientesControl {
             int idade = Integer.parseInt(idadeStr);
 
             // Agora você pode prosseguir com a lógica de cadastro no banco de dados
-            // Exemplo: new ClientesDAO().cadastrar(nome, endereco, telefone, cpf, idade);
+            new ClientesDAO().cadastrarCL(nome, endereco, telefone, cpf, idadeStr);
 
         } catch (NumberFormatException e) {
             // Tratamento de exceção para conversão de String para int
@@ -80,6 +80,7 @@ public class ClientesControl {
             // Atualiza a tabela de exibição após o cadastro, mesmo que haja uma exceção
             atualizarTabela();
         }
+
     }
 
     // Método para atualizar os dados de um carro no banco de dados
@@ -89,10 +90,21 @@ public class ClientesControl {
         atualizarTabela(); // Atualiza a tabela de exibição após a atualização
     }
 
-    // Método para apagar um carro do banco de dados
+    // Método para apagar um cliente do banco de dados
     public void apagar(String cpf) {
-        new ClientesDAO().apagarCL(cpf);
-        // Chama o método de exclusão no banco de dados
-        atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
+        // Exibe uma caixa de diálogo de confirmação
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente apagar este cliente?", "Confirmação",
+                JOptionPane.YES_NO_OPTION);
+
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                new ClientesDAO().apagarCL(cpf);
+                // Chama o método de exclusão no banco de dados
+                atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
+            } catch (Exception e) {
+                // Tratamento de exceção, se necessário
+                JOptionPane.showMessageDialog(null, "Erro durante a exclusão: " + e.getMessage());
+            }
+        }
     }
 }
